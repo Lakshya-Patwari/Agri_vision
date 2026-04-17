@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Agri-Vision Result</title>
+
+<style>
+body{
+    font-family: 'Segoe UI', sans-serif;
+    background:#eef2f3;
+    margin:0;
+}
+
+/* HEADER */
+.header{
+    background:linear-gradient(135deg,#2e7d32,#66bb6a);
+    color:white;
+    text-align:center;
+    padding:25px;
+    font-size:26px;
+    font-weight:bold;
+}
+
+/* CONTAINER */
+.container{
+    width:85%;
+    margin:auto;
+    margin-top:30px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08);
+    margin-bottom:25px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+    gap:20px;
+}
+
+/* TITLES */
+h2{
+    color:#2e7d32;
+}
+
+/* CROP */
+.crop{
+    font-size:30px;
+    font-weight:bold;
+    color:#1b5e20;
+}
+
+/* STAT BOX */
+.stat-box{
+    background:#f1f8f4;
+    padding:15px;
+    border-radius:8px;
+    text-align:center;
+}
+
+/* WEATHER */
+.weather-box{
+    background:#e8f5e9;
+    padding:15px;
+    border-radius:10px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+th{
+    background:#2e7d32;
+    color:white;
+}
+
+/* COST LIST */
+ul{
+    list-style:none;
+    padding:0;
+}
+
+li{
+    padding:6px 0;
+}
+
+/* SOIL BOX */
+.nutrients{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.nutrient{
+    padding:10px 15px;
+    border-radius:8px;
+    color:white;
+    font-weight:bold;
+}
+
+.low{ background:#e53935; }
+.optimal{ background:#43a047; }
+
+/* BUTTON */
+.button-box{
+    text-align:center;
+    margin-top:20px;
+}
+
+button{
+    background:#2e7d32;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+🌾 AGRI-VISION Dashboard
+</div>
+
+<div class="container">
+
+<!-- CROP -->
+<div class="card">
+    <h2>🌱 Recommended Crop</h2>
+    <div class="crop">{{ prediction }}</div>
+    <p><b>Confidence:</b> {{ confidence }}%</p>
+    <p><b>Model Accuracy:</b> {{ "%.2f"|format(accuracy*100) }}%</p>
+</div>
+
+<!-- WEATHER + PROFIT -->
+<div class="grid">
+
+    <div class="card">
+        <h2>🌦 Weather</h2>
+        <div class="weather-box">
+            <p><b>Season:</b> {{ season }}</p>
+            <p>🌡 Temp: {{ "%.2f"|format(temperature) }} °C</p>
+            <p>💧 Humidity: {{ humidity }}%</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>💰 Profit Summary</h2>
+
+        <div class="stat-box">
+            <p>Avg Revenue (₹/hectare)</p>
+            <h3>₹ {{ "%.2f"|format(predicted_revenue) }}</h3>
+        </div>
+
+        <br>
+
+        <div class="stat-box">
+            <p>Expected Profit (₹/hectare)</p>
+            <h3>₹ {{ "%.2f"|format(predicted_profit) }}</h3>
+        </div>
+
+        <br>
+
+        <div class="stat-box">
+            <p>Yield</p>
+            <h3>{{ "%.2f"|format(predicted_yield) }} quintal/hectare</h3>
+        </div>
+    </div>
+
+</div>
+
+<!-- MONTHLY REVENUE -->
+<div class="card">
+    <h2>📈 Monthly Revenue Forecast (2026)</h2>
+
+    <table>
+        <tr>
+            <th>Month</th>
+            <th>Revenue (₹/hectare)</th>
+        </tr>
+
+        {% for month, value in monthly_revenue.items() %}
+        <tr>
+            <td>{{ month }}</td>
+            <td>₹ {{ value }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+<!-- COST -->
+<div class="card">
+    <h2>📊 Cost Breakdown (₹/hectare)</h2>
+
+    <ul>
+        <li>Seed: ₹ {{ "%.2f"|format(seed_cost) }}</li>
+        <li>Fertilizer: ₹ {{ "%.2f"|format(fertilizer_cost) }}</li>
+        <li>Manure: ₹ {{ "%.2f"|format(manure_cost) }}</li>
+        <li>Pesticide: ₹ {{ "%.2f"|format(pesticide_cost) }}</li>
+        <li>Irrigation: ₹ {{ "%.2f"|format(irrigation_cost) }}</li>
+        <li>Machinery: ₹ {{ "%.2f"|format(machinery_cost) }}</li>
+        <li>Misc: ₹ {{ "%.2f"|format(misc_cost) }}</li>
+    </ul>
+
+    <p><b>Total Cost:</b> ₹ {{ "%.2f"|format(total_cost) }}</p>
+</div>
+
+<!-- SOIL -->
+<div class="card">
+<h2>🌍 Soil Analysis</h2>
+
+<div class="nutrients">
+<div class="nutrient {% if N < 40 %}low{% else %}optimal{% endif %}">N: {{ N }}</div>
+<div class="nutrient {% if P < 40 %}low{% else %}optimal{% endif %}">P: {{ P }}</div>
+<div class="nutrient {% if K < 40 %}low{% else %}optimal{% endif %}">K: {{ K }}</div>
+<div class="nutrient {% if ph < 5.5 or ph > 7.5 %}low{% else %}optimal{% endif %}">pH: {{ ph }}</div>
+</div>
+
+<br>
+
+<h3>Problems</h3>
+<ul>
+{% for p in problems %}
+<li>{{ p }}</li>
+{% endfor %}
+</ul>
+
+<h3>Fertilizer Tips</h3>
+<ol>
+{% for tip in fertilizer_tips %}
+<li>{{ tip }}</li>
+{% endfor %}
+</ol>
+
+<div class="button-box">
+<a href="/"><button>Predict Again</button></a>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
