@@ -1,1 +1,2 @@
 weather_api_key = "7bc58598cfe80827858f421a4d4574c1"
+gemini_api_key  = "AIzaSyD1aKgzaFzzosxiAbVLgNyJktRLXGByFME"

@@ -1,0 +1,500 @@
+{
+  "central_schemes": [
+    {
+      "id": "pm_kisan",
+      "name": "PM-KISAN",
+      "full_name": "Pradhan Mantri Kisan Samman Nidhi",
+      "benefit": "₹6,000/year direct income support in 3 installments",
+      "eligibility": "All landholding farmer families",
+      "icon": "💰",
+      "url": "https://pmkisan.gov.in",
+      "category": "income_support"
+    },
+    {
+      "id": "pmfby",
+      "name": "PMFBY",
+      "full_name": "Pradhan Mantri Fasal Bima Yojana",
+      "benefit": "Crop insurance at 2% premium (Kharif), 1.5% (Rabi), 5% (Commercial/Horticulture)",
+      "eligibility": "All farmers growing notified crops in notified areas",
+      "icon": "🛡️",
+      "url": "https://pmfby.gov.in",
+      "category": "insurance"
+    },
+    {
+      "id": "kcc",
+      "name": "KCC",
+      "full_name": "Kisan Credit Card",
+      "benefit": "Subsidized crop loans at 4% interest (with prompt repayment). Up to ₹3 lakh limit",
+      "eligibility": "All farmers, sharecroppers, tenant farmers",
+      "icon": "💳",
+      "url": "https://www.pmkisan.gov.in/KCCForm",
+      "category": "credit"
+    },
+    {
+      "id": "soil_health",
+      "name": "Soil Health Card",
+      "full_name": "Soil Health Card Scheme",
+      "benefit": "Free soil testing and nutrient recommendation card every 2 years",
+      "eligibility": "All farmers",
+      "icon": "🧪",
+      "url": "https://soilhealth.dac.gov.in",
+      "category": "soil"
+    },
+    {
+      "id": "pm_kusum",
+      "name": "PM-KUSUM",
+      "full_name": "Pradhan Mantri Kisan Urja Suraksha evam Utthaan Mahabhiyan",
+      "benefit": "60% subsidy on solar pumps (up to 7.5 HP). Sell surplus solar power to grid",
+      "eligibility": "All farmers with agricultural land",
+      "icon": "☀️",
+      "url": "https://pmkusum.mnre.gov.in",
+      "category": "energy"
+    },
+    {
+      "id": "e_nam",
+      "name": "e-NAM",
+      "full_name": "National Agriculture Market",
+      "benefit": "Sell crops online across 1,300+ mandis. Better price discovery, transparent bidding",
+      "eligibility": "All farmers with Aadhaar and bank account",
+      "icon": "🏪",
+      "url": "https://enam.gov.in",
+      "category": "market"
+    },
+    {
+      "id": "agri_infra",
+      "name": "AIF",
+      "full_name": "Agriculture Infrastructure Fund",
+      "benefit": "3% interest subvention on loans up to ₹2 crore for farm infrastructure",
+      "eligibility": "Farmers, FPOs, PACS, startups",
+      "icon": "🏗️",
+      "url": "https://agriinfra.dac.gov.in",
+      "category": "infrastructure"
+    },
+    {
+      "id": "pm_mandhan",
+      "name": "PM Kisan Maan-Dhan",
+      "full_name": "Pradhan Mantri Kisan Maan-Dhan Yojana",
+      "benefit": "₹3,000/month pension after age 60. Monthly contribution ₹55-200 based on age",
+      "eligibility": "Small and marginal farmers aged 18-40",
+      "icon": "👴",
+      "url": "https://maandhan.in",
+      "category": "pension"
+    }
+  ],
+
+  "crop_schemes": {
+    "rice": [
+      {
+        "name": "NFSM-Rice",
+        "full_name": "National Food Security Mission — Rice",
+        "benefit": "Subsidized seeds, INM/IPM demos, farm machinery. ₹500-1,000/ha for SRI technique",
+        "icon": "🌾",
+        "url": "https://nfsm.gov.in"
+      },
+      {
+        "name": "MSP Guarantee",
+        "full_name": "Minimum Support Price — Rice",
+        "benefit": "MSP ₹2,300/quintal (2025-26). Government procurement at guaranteed price",
+        "icon": "📊",
+        "url": "https://farmer.gov.in/mspstatewise.aspx"
+      }
+    ],
+    "wheat": [
+      {
+        "name": "NFSM-Wheat",
+        "full_name": "National Food Security Mission — Wheat",
+        "benefit": "Subsidized seeds, micro-nutrients, farm machinery support",
+        "icon": "🌾",
+        "url": "https://nfsm.gov.in"
+      },
+      {
+        "name": "MSP Guarantee",
+        "full_name": "Minimum Support Price — Wheat",
+        "benefit": "MSP ₹2,275/quintal (2025-26). Sold directly to FCI at guaranteed price",
+        "icon": "📊",
+        "url": "https://farmer.gov.in/mspstatewise.aspx"
+      }
+    ],
+    "maize": [
+      {
+        "name": "NFSM-Coarse Cereals",
+        "full_name": "National Food Security Mission — Coarse Cereals",
+        "benefit": "Subsidized hybrid seeds, INM demos, sprinkler sets at 50% subsidy",
+        "icon": "🌽",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "cotton": [
+      {
+        "name": "TMC",
+        "full_name": "Technology Mission on Cotton",
+        "benefit": "Subsidized Bt cotton seeds, IPM kits, sprayers. HDP training programs",
+        "icon": "🏭",
+        "url": "https://farmer.gov.in"
+      },
+      {
+        "name": "MSP Guarantee",
+        "full_name": "Minimum Support Price — Cotton",
+        "benefit": "MSP ₹7,121/quintal (medium staple). CCI procurement at MSP",
+        "icon": "📊",
+        "url": "https://farmer.gov.in/mspstatewise.aspx"
+      }
+    ],
+    "sugarcane": [
+      {
+        "name": "FRP",
+        "full_name": "Fair & Remunerative Price",
+        "benefit": "FRP ₹340/quintal (2025-26). Mills legally bound to pay within 14 days",
+        "icon": "🏭",
+        "url": "https://farmer.gov.in"
+      },
+      {
+        "name": "Drip Subsidy",
+        "full_name": "Micro Irrigation Fund — Sugarcane",
+        "benefit": "55-90% subsidy on drip irrigation for sugarcane. Saves 40% water",
+        "icon": "💧",
+        "url": "https://pmksy.gov.in"
+      }
+    ],
+    "mango": [
+      {
+        "name": "MIDH",
+        "full_name": "Mission for Integrated Development of Horticulture",
+        "benefit": "₹40,000/ha for mango plantation (40% subsidy). Free drip irrigation setup",
+        "icon": "🥭",
+        "url": "https://midh.gov.in"
+      }
+    ],
+    "banana": [
+      {
+        "name": "MIDH",
+        "full_name": "Mission for Integrated Development of Horticulture",
+        "benefit": "₹87,500/ha for tissue culture banana (40% subsidy). Cold storage linkage",
+        "icon": "🍌",
+        "url": "https://midh.gov.in"
+      }
+    ],
+    "grapes": [
+      {
+        "name": "MIDH",
+        "full_name": "Mission for Integrated Development of Horticulture",
+        "benefit": "₹1,00,000/ha subsidy for vineyard establishment. Export quality training",
+        "icon": "🍇",
+        "url": "https://midh.gov.in"
+      }
+    ],
+    "apple": [
+      {
+        "name": "MIDH",
+        "full_name": "Mission for Integrated Development of Horticulture",
+        "benefit": "₹60,000/ha for apple orchards. Anti-hail net at 50% subsidy",
+        "icon": "🍎",
+        "url": "https://midh.gov.in"
+      }
+    ],
+    "orange": [
+      {
+        "name": "MIDH",
+        "full_name": "Mission for Integrated Development of Horticulture",
+        "benefit": "₹40,000/ha for citrus plantation. Post-harvest pack-house subsidy",
+        "icon": "🍊",
+        "url": "https://midh.gov.in"
+      }
+    ],
+    "papaya": [
+      {
+        "name": "MIDH",
+        "full_name": "Mission for Integrated Development of Horticulture",
+        "benefit": "₹30,000/ha for papaya cultivation. Tissue culture plant subsidy",
+        "icon": "🧬",
+        "url": "https://midh.gov.in"
+      }
+    ],
+    "coconut": [
+      {
+        "name": "Coconut Dev. Board",
+        "full_name": "Coconut Development Board Schemes",
+        "benefit": "₹40/seedling subsidy, ₹35,000/ha for replanting, copra procurement at MSP",
+        "icon": "🥥",
+        "url": "https://coconutboard.gov.in"
+      }
+    ],
+    "coffee": [
+      {
+        "name": "Coffee Board Subsidy",
+        "full_name": "Coffee Board Development Schemes",
+        "benefit": "₹35,000/ha for replantation, quality upgradation, pool marketing support",
+        "icon": "☕",
+        "url": "https://indiacoffee.org"
+      }
+    ],
+    "lentil": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized seeds, Rhizobium culture, INM/IPM kits. ₹3,000/ha cluster demos",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "chickpea": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized seeds (50% cost), weedicides, sprinkler sets. MSP ₹5,650/quintal",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "mungbean": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized certified seeds, Rhizobium + PSB culture kits free",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "pigeonpeas": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized seeds, cluster front-line demos. MSP ₹7,550/quintal for Arhar",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "mothbeans": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized seeds and bio-fertilizer kits for arid zone pulses",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "kidneybeans": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized seeds, INM demos, cold-chain linkage for Rajma",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "blackgram": [
+      {
+        "name": "NFSM-Pulses",
+        "full_name": "National Food Security Mission — Pulses",
+        "benefit": "Subsidized seeds and integrated nutrient management demos",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "groundnut": [
+      {
+        "name": "NMOOP",
+        "full_name": "National Mission on Oilseeds & Oil Palm",
+        "benefit": "Subsidized breeder seeds, gypsum at 50% cost, sprinkler sets at 50% subsidy",
+        "icon": "🥜",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "mustard": [
+      {
+        "name": "NMOOP",
+        "full_name": "National Mission on Oilseeds & Oil Palm",
+        "benefit": "Subsidized seeds, sulphur/boron micro-nutrients. MSP ₹5,650/quintal",
+        "icon": "🌼",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "soyabean": [
+      {
+        "name": "NMOOP",
+        "full_name": "National Mission on Oilseeds & Oil Palm",
+        "benefit": "Subsidized certified seeds, Rhizobium culture, IPM kits. MSP ₹4,892/quintal",
+        "icon": "🫘",
+        "url": "https://nfsm.gov.in"
+      }
+    ],
+    "jute": [
+      {
+        "name": "JUTE-ICARE",
+        "full_name": "Jute — Improved Cultivation and Advanced Retting Exercise",
+        "benefit": "Subsidized certified seeds, nail-weeder, CRIJAF retting tech. MSP ₹5,050/quintal",
+        "icon": "🧶",
+        "url": "https://farmer.gov.in"
+      }
+    ]
+  },
+
+  "state_schemes": {
+    "Maharashtra": [
+      {
+        "name": "Namo Shetkari Maha Sanman Nidhi",
+        "benefit": "₹6,000/year state top-up (in addition to PM-KISAN). Total ₹12,000/year",
+        "icon": "💰",
+        "url": "https://nsmsy.mahait.org"
+      },
+      {
+        "name": "Nanaji Deshmukh Krishi Sanjivani",
+        "benefit": "Climate-resilient agriculture project. Free farm ponds, drip irrigation subsidy",
+        "icon": "🌧️",
+        "url": "https://mahapocra.gov.in"
+      }
+    ],
+    "Uttar Pradesh": [
+      {
+        "name": "UP Kisan Kalyan Mission",
+        "benefit": "Free seed mini-kits, soil testing, FPO formation support",
+        "icon": "🌱",
+        "url": "https://upagriculture.com"
+      }
+    ],
+    "Madhya Pradesh": [
+      {
+        "name": "Mukhyamantri Kisan Kalyan Yojana",
+        "benefit": "₹4,000/year additional income support on top of PM-KISAN",
+        "icon": "💰",
+        "url": "https://mpkrishi.mp.gov.in"
+      }
+    ],
+    "Rajasthan": [
+      {
+        "name": "Free Electricity for Farmers",
+        "benefit": "Free electricity for agricultural connections up to 2,000 units",
+        "icon": "⚡",
+        "url": "https://rajkisan.rajasthan.gov.in"
+      }
+    ],
+    "Punjab": [
+      {
+        "name": "Crop Diversification Programme",
+        "benefit": "₹17,500/acre incentive to shift from paddy to maize/cotton/pulses",
+        "icon": "🔄",
+        "url": "https://agri.punjab.gov.in"
+      }
+    ],
+    "Haryana": [
+      {
+        "name": "Meri Fasal Mera Byora",
+        "benefit": "Online crop registration for MSP procurement. Bonus on wheat/mustard",
+        "icon": "📝",
+        "url": "https://fasal.haryana.gov.in"
+      }
+    ],
+    "Tamil Nadu": [
+      {
+        "name": "Free Electricity for Agriculture",
+        "benefit": "Free electricity for all agricultural pumpsets (no metering)",
+        "icon": "⚡",
+        "url": "https://www.tn.gov.in/scheme/data_view/6209"
+      }
+    ],
+    "Karnataka": [
+      {
+        "name": "Raitha Siri",
+        "benefit": "Zero-interest crop loans up to ₹3 lakh. Loan waiver for small farmers",
+        "icon": "💳",
+        "url": "https://raitamitra.karnataka.gov.in"
+      }
+    ],
+    "Andhra Pradesh": [
+      {
+        "name": "YSR Rythu Bharosa",
+        "benefit": "₹13,500/year investment support for farmers (paid in 3 installments)",
+        "icon": "💰",
+        "url": "https://ysrrythubharosa.ap.gov.in"
+      }
+    ],
+    "Telangana": [
+      {
+        "name": "Rythu Bandhu",
+        "benefit": "₹10,000/acre/year investment support (₹5,000 per season)",
+        "icon": "💰",
+        "url": "https://treasury.telangana.gov.in/rythubandhu"
+      }
+    ],
+    "West Bengal": [
+      {
+        "name": "Krishak Bandhu",
+        "benefit": "₹10,000/year (₹5,000 per season) for farmers with 1+ acre. ₹2 lakh life insurance",
+        "icon": "💰",
+        "url": "https://krishakbandhu.net"
+      }
+    ],
+    "Gujarat": [
+      {
+        "name": "Kisan Suryoday Yojana",
+        "benefit": "Daytime electricity (5 AM to 9 PM) for irrigation. New solar feeder lines",
+        "icon": "☀️",
+        "url": "https://guj-nrega.gujarat.gov.in"
+      }
+    ],
+    "Odisha": [
+      {
+        "name": "KALIA",
+        "full_name": "Krushak Assistance for Livelihood and Income Augmentation",
+        "benefit": "₹25,000/season financial assistance for cultivation",
+        "icon": "💰",
+        "url": "https://kalia.odisha.gov.in"
+      }
+    ],
+    "Kerala": [
+      {
+        "name": "Vegetable & Fruit Promotion Council",
+        "benefit": "Subsidy on seeds, grow bags, precision farming tools. Buy-back guarantee",
+        "icon": "🥦",
+        "url": "https://vfpck.org"
+      }
+    ],
+    "Jharkhand": [
+      {
+        "name": "Mukhyamantri Krishi Ashirwad Yojana",
+        "benefit": "₹5,000/acre (up to 5 acres) per year for Kharif season",
+        "icon": "💰",
+        "url": "https://mmkay.jharkhand.gov.in"
+      }
+    ],
+    "Chattisgarh": [
+      {
+        "name": "Rajiv Gandhi Kisan Nyay Yojana",
+        "benefit": "₹9,000/acre input subsidy for paddy, ₹10,000/acre for sugarcane",
+        "icon": "💰",
+        "url": "https://rgkny.cg.nic.in"
+      }
+    ],
+    "Bihar": [
+      {
+        "name": "Bihar Kisan Samman Yojana",
+        "benefit": "Direct Benefit Transfer for seed, fertilizer, and diesel subsidy",
+        "icon": "💰",
+        "url": "https://dbtagriculture.bihar.gov.in"
+      }
+    ]
+  },
+
+  "condition_schemes": [
+    {
+      "condition": "low_rainfall",
+      "threshold_key": "rainfall",
+      "threshold_below": 700,
+      "name": "PMKSY Micro Irrigation",
+      "full_name": "Per Drop More Crop — Micro Irrigation",
+      "benefit": "55-90% subsidy on drip/sprinkler irrigation systems",
+      "icon": "💧",
+      "url": "https://pmksy.gov.in"
+    },
+    {
+      "condition": "poor_soil",
+      "threshold_key": "problems_count",
+      "threshold_above": 1,
+      "name": "Paramparagat Krishi Vikas Yojana",
+      "full_name": "PKVY — Organic Farming Mission",
+      "benefit": "₹50,000/ha over 3 years for organic farming transition. Free certification",
+      "icon": "🌿",
+      "url": "https://pgsindia-ncof.gov.in"
+    }
+  ]
+}

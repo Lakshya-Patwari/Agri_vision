@@ -1,36 +1,369 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Crop Recommendation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri-Vision | Crop Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+<body class="index-body">
 
-<body>
+    <!-- Dark Mode Toggle & Lang Toggle -->
+    <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px; align-items: center; z-index: 100;">
+        <div style="background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 20px; backdrop-filter: blur(5px);">
+            <button id="lang-en" onclick="setLanguage('en')" style="border: none; background: none; cursor: pointer; color: white; font-weight: bold;">EN</button>
+            <span style="color: rgba(255,255,255,0.5);">|</span>
+            <button id="lang-hi" onclick="setLanguage('hi')" style="border: none; background: none; cursor: pointer; color: white;">HI</button>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()" style="position: static; box-shadow: none;">
+            <span id="theme-icon">🌙</span> Dark Mode
+        </button>
+    </div>
 
-<h2>Crop Recommendation System</h2>
+    <div class="index-container">
+        <div class="index-header">
+            <h1 data-i18n="title">Agri-Vision</h1>
+            <p id="header-desc" data-i18n="subtitle">Enter your soil and environmental details to get intelligent crop recommendations.</p>
+        </div>
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(event, 'predict')">🌾 Crop Intelligence</div>
+            <div class="tab" onclick="switchTab(event, 'fertilizer')">🧪 Fertilizer Calculator</div>
+        </div>
 
-<form action="/predict" method="POST">
+        <!-- TAB 1: CROP PREDICTION -->
+        <div id="tab-predict" class="tab-content active">
+            <form id="predictionForm" action="/predict" method="POST">
+            
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;" data-i18n="map_label">Select Location on Map 📍</label>
+                <div id="map" style="height: 300px; border-radius: 12px; border: 1px solid var(--border-color); z-index: 1;"></div>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 5px;" data-i18n="map_hint">Clicking the map will automatically fill your City, State, District, and Rainfall below.</p>
+            </div>
 
-    <label>Nitrogen:</label>
-    <input type="number" name="nitrogen" required><br><br>
+            <div class="form-grid">
+                
+                <div class="input-group">
+                    <label for="nitrogen" data-i18n="nitrogen">Nitrogen (N)</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="range" id="nitrogen" name="nitrogen" min="0" max="140" value="50" oninput="document.getElementById('n-val').innerText = this.value" style="flex: 1;">
+                        <span class="slider-val" id="n-val" style="min-width: 30px; text-align: right;">50</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="phosphorous" data-i18n="phosphorous">Phosphorous (P)</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="range" id="phosphorous" name="phosphorous" min="0" max="145" value="40" oninput="document.getElementById('p-val').innerText = this.value" style="flex: 1;">
+                        <span class="slider-val" id="p-val" style="min-width: 30px; text-align: right;">40</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="potassium" data-i18n="potassium">Potassium (K)</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="range" id="potassium" name="potassium" min="0" max="205" value="40" oninput="document.getElementById('k-val').innerText = this.value" style="flex: 1;">
+                        <span class="slider-val" id="k-val" style="min-width: 30px; text-align: right;">40</span>
+                    </div>
+                </div>
 
-    <label>Phosphorous:</label>
-    <input type="number" name="phosphorous" required><br><br>
+                <div class="input-group">
+                    <label for="ph" data-i18n="ph">Soil pH</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="range" id="ph" name="ph" min="3.5" max="9.9" step="0.1" value="6.5" oninput="document.getElementById('ph-val').innerText = this.value" style="flex: 1;">
+                        <span class="slider-val" id="ph-val" style="min-width: 30px; text-align: right;">6.5</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="state" data-i18n="state">State</label>
+                    <select id="state" name="state" onchange="updateDistricts()" required>
+                        <option value="" disabled selected data-i18n="select_state">Select state</option>
+                        {% for state in districts_by_state.keys() | sort %}
+                        <option value="{{ state }}">{{ state }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-    <label>Potassium:</label>
-    <input type="number" name="potassium" required><br><br>
+                <div class="input-group">
+                    <label for="district" data-i18n="district">District</label>
+                    <select id="district" name="district" required disabled>
+                        <option value="" disabled selected data-i18n="select_district">Select district</option>
+                    </select>
+                </div>
 
-    <label>City:</label>
-    <input type="text" name="city" placeholder="Enter city (e.g. Delhi)" required><br><br>
+                <div class="input-group">
+                    <label for="rainfall_input" data-i18n="rainfall">Rainfall (mm) <span style="font-size: 0.8rem; color: var(--text-light); font-weight: normal;" data-i18n="rainfall_hint">(Auto-filled by district)</span></label>
+                    <input type="number" step="any" id="rainfall_input" name="rainfall_input" placeholder="e.g. 885">
+                </div>
 
-    <label>pH:</label>
-    <input type="number" step="any" name="ph" required><br><br>
+                <div class="input-group">
+                    <label for="city" data-i18n="city">City / Town (For Weather)</label>
+                    <input type="text" id="city" name="city" placeholder="e.g. Nagpur" required>
+                </div>
+            </div>
 
-    <label>Rainfall (mm):</label>
-    <input type="number" step="any" name="rainfall" required><br><br>
+            <button type="submit" class="btn" data-i18n="generate">Generate Farm Insights ✨</button>
+            </form>
+        </div>
 
-    <button type="submit">Predict Crop</button>
+        <!-- TAB 2: FERTILIZER CALCULATOR -->
+        <div id="tab-fertilizer" class="tab-content">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label for="fert-n">Current Nitrogen (N)</label>
+                    <input type="number" id="fert-n" placeholder="e.g. 20" oninput="calculateFert()">
+                </div>
+                <div class="input-group">
+                    <label for="fert-p">Current Phosphorous (P)</label>
+                    <input type="number" id="fert-p" placeholder="e.g. 15" oninput="calculateFert()">
+                </div>
+                <div class="input-group">
+                    <label for="fert-k">Current Potassium (K)</label>
+                    <input type="number" id="fert-k" placeholder="e.g. 10" oninput="calculateFert()">
+                </div>
+                <div class="input-group">
+                    <label for="fert-area">Field Area (Hectares)</label>
+                    <input type="number" step="any" id="fert-area" placeholder="e.g. 1" value="1" oninput="calculateFert()">
+                </div>
+            </div>
 
-</form>
+            <div style="margin-top: 30px;">
+                <h3 style="color: var(--text-dark); margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Required Fertilizer (to reach optimal 100-50-50 NPK)</h3>
+                <div id="fert-results">
+                    <!-- Results populated by JS -->
+                </div>
+                <div style="margin-top: 20px; font-size: 1.2rem; font-weight: 700; color: var(--primary); text-align: right;">
+                    Estimated Total Cost: ₹ <span id="total-cost">0</span>
+                </div>
+            </div>
+        </div>
 
+    </div>
+
+    <!-- LOADING OVERLAY -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Analyzing Soil...</div>
+        <p style="color: rgba(255,255,255,0.7); margin-top: 10px;">Gathering climate data and market trends</p>
+    </div>
+
+    <script>
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            document.getElementById('theme-icon').innerText = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Check local storage for theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // District Data from Flask
+        const districtsByState = {{ districts_by_state | tojson }};
+        const districtRainfallData = {{ district_rainfall | tojson | safe if district_rainfall else '{}' }};
+
+        function updateDistricts() {
+            const stateSelect = document.getElementById('state');
+            const districtSelect = document.getElementById('district');
+            const selectedState = stateSelect.value;
+            
+            // Clear existing options
+            districtSelect.innerHTML = '<option value="" disabled selected>Select district</option>';
+            document.getElementById('rainfall_input').value = '';
+            
+            if (selectedState && districtsByState[selectedState]) {
+                districtSelect.disabled = false;
+                // Sort and add new districts
+                districtsByState[selectedState].sort().forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            } else {
+                districtSelect.disabled = true;
+            }
+        }
+
+        document.getElementById('district').addEventListener('change', function() {
+            const state = document.getElementById('state').value;
+            const district = this.value;
+            if (districtRainfallData[state] && districtRainfallData[state][district]) {
+                document.getElementById('rainfall_input').value = districtRainfallData[state][district];
+            } else {
+                document.getElementById('rainfall_input').value = '';
+            }
+        });
+
+        // Tab Switching Logic
+        function switchTab(event, tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            const headerDesc = document.getElementById('header-desc');
+            if(tabId === 'predict') {
+                headerDesc.innerText = "Enter your soil and environmental details to get intelligent crop recommendations.";
+            } else {
+                headerDesc.innerText = "Instantly calculate the exact number of bags needed to amend your soil.";
+                calculateFert(); // trigger initial calc
+            }
+        }
+
+        // Real-time Fertilizer Calculation
+        function calculateFert() {
+            const n = parseFloat(document.getElementById('fert-n').value) || 0;
+            const p = parseFloat(document.getElementById('fert-p').value) || 0;
+            const k = parseFloat(document.getElementById('fert-k').value) || 0;
+            const area = parseFloat(document.getElementById('fert-area').value) || 1;
+
+            const targetN = 100;
+            const targetP = 50;
+            const targetK = 50;
+
+            const defN = Math.max(0, targetN - n) * area;
+            const defP = Math.max(0, targetP - p) * area;
+            const defK = Math.max(0, targetK - k) * area;
+
+            const ureaBags = Math.ceil((defN / 0.46) / 50);
+            const dapBags = Math.ceil((defP / 0.46) / 50);
+            const mopBags = Math.ceil((defK / 0.60) / 50);
+
+            const costUrea = ureaBags * 300;
+            const costDap = dapBags * 1350;
+            const costMop = mopBags * 1700;
+            const totalCost = costUrea + costDap + costMop;
+
+            let html = '';
+            if (ureaBags > 0) html += createCard('Urea (Nitrogen)', ureaBags, costUrea);
+            if (dapBags > 0) html += createCard('DAP (Phosphorous)', dapBags, costDap);
+            if (mopBags > 0) html += createCard('MOP (Potassium)', mopBags, costMop);
+
+            if (html === '') {
+                html = '<div style="color: var(--primary); font-weight: 600; padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; margin-top: 15px;">Your soil is already optimal! No fertilizer needed.</div>';
+            }
+
+            document.getElementById('fert-results').innerHTML = html;
+            document.getElementById('total-cost').innerText = totalCost.toLocaleString('en-IN');
+        }
+
+        function createCard(name, bags, cost) {
+            return `
+                <div class="fert-result-card">
+                    <div>
+                        <strong style="color: var(--text-dark); font-size: 1.1rem;">${name}</strong>
+                        <div style="color: var(--text-light); font-size: 0.9rem;">50kg bags needed</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: var(--primary); font-size: 1.5rem; font-weight: 700;">${bags} Bags</div>
+                        <div style="color: var(--text-light); font-size: 0.9rem;">₹ ${cost.toLocaleString('en-IN')}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        const form = document.getElementById('predictionForm');
+        const overlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+
+        const messages = [
+            "Analyzing Soil Composition...",
+            "Detecting Local Rainfall Patterns...",
+            "Fetching Real-time Market Prices...",
+            "Predicting Optimal Yield...",
+            "Calculating Financial Forecasts..."
+        ];
+
+        form.addEventListener('submit', () => {
+            overlay.classList.add('active');
+            let i = 0;
+            const interval = setInterval(() => {
+                loadingText.innerText = messages[i % messages.length];
+                i++;
+            }, 1200);
+        });
+
+        // Initialize Map
+        const map = L.map('map').setView([22.9074872, 79.07306671], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        let marker;
+
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lon = e.latlng.lng;
+            
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([lat, lon]).addTo(map);
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(res => res.json())
+                .then(data => {
+                    const address = data.address;
+                    if (!address) return;
+
+                    // 1. Set City
+                    const city = address.city || address.town || address.village || address.county || '';
+                    if (city) document.getElementById('city').value = city.replace(/ City/gi, '').trim();
+
+                    // 2. Set State
+                    let state = address.state;
+                    if (state) {
+                        if (state === "Chhattisgarh") state = "Chattisgarh";
+                        if (state === "Delhi") state = "NCT of Delhi";
+                        
+                        const stateSelect = document.getElementById('state');
+                        let stateFound = false;
+                        for (let i = 0; i < stateSelect.options.length; i++) {
+                            if (stateSelect.options[i].text.toLowerCase() === state.toLowerCase()) {
+                                stateSelect.selectedIndex = i;
+                                stateFound = true;
+                                break;
+                            }
+                        }
+
+                        if (stateFound) {
+                            updateDistricts();
+                            
+                            // 3. Set District
+                            let district = address.state_district || address.county || address.city;
+                            if (district) {
+                                district = district.replace(/ District/gi, '').replace(/ Urban Taluka/gi, '').trim();
+                                
+                                const districtSelect = document.getElementById('district');
+                                for (let i = 0; i < districtSelect.options.length; i++) {
+                                    const opt = districtSelect.options[i].text.toLowerCase();
+                                    const dist = district.toLowerCase();
+                                    if (opt.includes(dist) || dist.includes(opt)) {
+                                        districtSelect.selectedIndex = i;
+                                        districtSelect.dispatchEvent(new Event('change'));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+                .catch(err => console.error("Geocoding failed", err));
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/translations.js') }}"></script>
 </body>
 </html>
