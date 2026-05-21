@@ -55,7 +55,7 @@
             <h2 data-i18n="top_crop">⭐ Top Recommended Crop</h2>
             <div class="crop-name dynamic-crop" id="main-crop-name">{{ primary_crop.name }}</div>
             <div class="crop-confidence" id="main-crop-conf">Model Confidence: {{ primary_crop.confidence }}%</div>
-            <div class="badge">Model Accuracy: {{ "%.2f"|format(accuracy*100) }}%</div>
+           
 
             {% if ai_explanation %}
             <div class="ai-explanation">
